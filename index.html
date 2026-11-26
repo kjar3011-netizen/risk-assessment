@@ -1,0 +1,1622 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>사업장 위험성평가 프로그램 (2026.11.4. 전부개정 지침 반영)</title>
+  <meta property="og:title" content="사업장 위험성평가 프로그램 (2026.11.4. 전부개정 지침 반영)" />
+  <meta property="og:description" content="고용노동부고시 제2026-73호 사업장 위험성평가에 관한 지침 반영 · 빈도강도법/3단계판단법/핵심요인기술법 · 체크리스트 연동 · 근로자 참여 사진증빙" />
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap');
+
+    body {
+      font-family: 'Noto Sans KR', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: #f1f5f9;
+      color: #0f172a;
+    }
+
+    .approval-table th, .approval-table td {
+      border: 1px solid #334155;
+      text-align: center;
+    }
+
+    .sig-pad-canvas {
+      touch-action: none;
+      cursor: crosshair;
+    }
+
+    @media print {
+      @page {
+        size: A4 portrait;
+        margin: 10mm 10mm 12mm 10mm;
+      }
+
+      body {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+        font-size: 10px !important;
+        line-height: 1.35 !important;
+      }
+
+      main, section, table, th, td, div, span, p, input, textarea, select, button {
+        font-size: 10px !important;
+        line-height: 1.35 !important;
+      }
+
+      h2 { font-size: 16px !important; line-height: 1.3 !important; }
+      h3 { font-size: 11.5px !important; line-height: 1.3 !important; }
+
+      .no-print { display: none !important; }
+      .print-show-table { display: block !important; }
+      .print-hide-mobile { display: none !important; }
+      .print-hidden { display: none !important; }
+
+      .print-container {
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        box-shadow: none !important;
+        border: none !important;
+      }
+
+      .print-break-inside-avoid {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      .print-break-before {
+        break-before: page;
+        page-break-before: always;
+      }
+
+      input, textarea, select {
+        border: none !important;
+        background: transparent !important;
+        padding: 1px 2px !important;
+        box-shadow: none !important;
+        resize: none !important;
+      }
+
+      input::placeholder,
+      textarea::placeholder,
+      input::-webkit-input-placeholder,
+      textarea::-webkit-input-placeholder {
+        color: transparent !important;
+        -webkit-text-fill-color: transparent !important;
+        opacity: 0 !important;
+      }
+
+      table { border-collapse: collapse !important; }
+      th, td {
+        border-color: #64748b !important;
+        padding: 4px 5px !important;
+      }
+    }
+  </style>
+</head>
+<body class="min-h-screen pb-12">
+  <!-- Blog Visitor Access Control Overlay -->
+  <div id="accessGateOverlay" class="no-print fixed inset-0 z-[9999] bg-slate-900/95 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-sm w-full p-6 text-center border border-slate-200">
+      <div class="w-12 h-12 mx-auto mb-3 rounded-xl bg-indigo-600 flex items-center justify-center text-white">
+        <i data-lucide="lock" class="w-6 h-6"></i>
+      </div>
+      <h2 class="text-lg font-bold text-slate-900">사업장 위험성평가 프로그램</h2>
+      <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">
+        블로그(<span class="font-semibold text-indigo-700">blog.naver.com/hjc1472</span>)를 통해 접속하시면 자동 통과되며, 직접 접속 시 인증코드가 필요합니다.
+      </p>
+      <div class="mt-4">
+        <input id="accessCodeInput" type="tel" inputmode="numeric" maxlength="10" placeholder="인증코드 입력" aria-label="인증코드 입력" class="w-full text-center text-base tracking-widest font-bold border border-slate-300 rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+        <p id="accessErrorMsg" class="hidden text-xs text-rose-600 font-medium mt-2">인증코드가 올바르지 않습니다. 다시 확인해 주세요.</p>
+      </div>
+      <button id="accessSubmitBtn" type="button" class="mt-4 w-full py-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-bold shadow transition">
+        잠금 해제
+      </button>
+    </div>
+  </div>
+  <script>
+    (function () {
+      const overlay = document.getElementById('accessGateOverlay');
+      const input = document.getElementById('accessCodeInput');
+      const btn = document.getElementById('accessSubmitBtn');
+      const err = document.getElementById('accessErrorMsg');
+      const ref = (document.referrer || '').toLowerCase();
+      const params = new URLSearchParams(window.location.search);
+      const allowedFromBlog = ref.includes('blog.naver.com/hjc1472') || ref.includes('m.blog.naver.com/hjc1472') || params.get('from') === 'blog_app';
+      window.__isRiskAppUnlocked = allowedFromBlog;
+
+      if (allowedFromBlog) {
+        overlay.classList.add('hidden');
+      }
+
+      function tryUnlock() {
+        if ((input.value || '').trim() === '1111') {
+          window.__isRiskAppUnlocked = true;
+          overlay.classList.add('hidden');
+          err.classList.add('hidden');
+        } else {
+          err.classList.remove('hidden');
+          input.focus();
+          input.select();
+        }
+      }
+
+      btn.addEventListener('click', tryUnlock);
+      input.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          tryUnlock();
+        }
+      });
+    })();
+  </script>
+
+  <!-- In-App Browser Notice Banner -->
+  <div id="inAppBanner" class="no-print hidden bg-amber-50 border-b border-amber-300 text-amber-950 px-3 py-2.5">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2 text-xs">
+      <div class="flex items-center gap-2">
+        <i data-lucide="info" class="w-4 h-4 text-amber-700 shrink-0"></i>
+        <span id="inAppNoticeText" class="font-medium leading-snug">네이버·카톡 앱 내에서는 PDF 출력 및 파일 저장이 제한될 수 있습니다.</span>
+      </div>
+      <div class="flex items-center gap-2 shrink-0">
+        <button id="btnOpenExternalChrome" type="button" class="hidden px-3 py-1.5 rounded-md bg-amber-600 hover:bg-amber-500 text-white font-bold shadow-xs">Chrome으로 열기</button>
+        <button id="btnCopyPageUrl" type="button" class="hidden px-3 py-1.5 rounded-md bg-white border border-amber-400 hover:bg-amber-100 text-amber-900 font-semibold">주소 복사</button>
+        <button id="btnDismissInApp" type="button" class="px-2 py-1 text-amber-700 hover:text-amber-950 font-semibold">닫기</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Top Control Bar -->
+  <header class="no-print sticky top-0 z-30 bg-slate-900 text-white shadow-md">
+    <div class="max-w-7xl mx-auto px-3 sm:px-4 py-2.5 flex flex-wrap items-center justify-between gap-2.5">
+      <div class="flex items-center gap-2.5">
+        <div class="w-9 h-9 rounded-lg bg-indigo-600 flex items-center justify-center shrink-0">
+          <i data-lucide="shield-alert" class="w-5 h-5 text-white"></i>
+        </div>
+        <div>
+          <h1 class="text-sm sm:text-base font-bold leading-tight">사업장 위험성평가 시스템</h1>
+          <p class="text-[11px] text-slate-300">고용노동부고시 제2026-73호 (2026. 11. 4. 전부개정 시행)</p>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-2">
+        <button id="btnExportJson" type="button" class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-slate-700 hover:bg-slate-600 text-xs font-medium transition">
+          <i data-lucide="download" class="w-3.5 h-3.5"></i> 백업
+        </button>
+        <label class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-slate-700 hover:bg-slate-600 text-xs font-medium cursor-pointer transition">
+          <i data-lucide="upload" class="w-3.5 h-3.5"></i> 불러오기
+          <input id="inputImportJson" type="file" accept=".json" class="hidden" />
+        </label>
+        <button id="btnPrint" type="button" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-500 hover:bg-indigo-400 text-white text-xs sm:text-sm font-bold shadow transition">
+          <i data-lucide="printer" class="w-4 h-4"></i> 인쇄 / PDF
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Printable Container -->
+  <main class="print-container max-w-7xl mx-auto mt-4 sm:mt-5 bg-white rounded-xl shadow-sm border border-slate-200 p-4 sm:p-8">
+
+    <!-- Header + Top-Right Approval Box -->
+    <section class="flex flex-col md:flex-row md:items-start justify-between gap-4 pb-5 border-b-2 border-slate-800">
+      <div class="flex-1">
+        <div class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded bg-indigo-50 text-indigo-800 border border-indigo-200 text-xs font-semibold mb-2">
+          <span>법령 근거:</span>
+          <a href="https://www.law.go.kr/%ED%96%89%EC%A0%95%EA%B7%9C%EC%B9%99/%EC%82%AC%EC%97%85%EC%9E%A5%EC%9C%84%ED%97%98%EC%84%B1%ED%8F%89%EA%B0%80%EC%97%90%EA%B4%80%ED%95%9C%EC%A7%80%EC%B9%A8" target="_blank" rel="noopener noreferrer" class="underline hover:text-indigo-600">
+            사업장 위험성평가에 관한 지침 (고용노동부고시 제2026-73호, 2026. 11. 4. 시행)
+          </a>
+        </div>
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">
+          사업장 위험성평가 실시·결과 기록서 <span id="docEvalTypeBadge" class="text-indigo-700 text-lg">[정기평가]</span>
+        </h2>
+        <p id="docMethodSubtitle" class="text-xs sm:text-sm text-slate-600 mt-1">
+          적용 기법: 빈도·강도법 (가능성 × 중대성)
+        </p>
+      </div>
+
+      <!-- Top-Right Approval Box -->
+      <div class="shrink-0 self-end md:self-start">
+        <table class="approval-table text-xs bg-white">
+          <tbody>
+            <tr>
+              <th rowspan="2" class="w-7 bg-slate-100 font-bold text-slate-800 px-1.5 py-2 leading-tight">결<br/>재</th>
+              <th class="w-20 bg-slate-100 font-semibold text-slate-700 py-1 px-2">담당</th>
+              <th class="w-20 bg-slate-100 font-semibold text-slate-700 py-1 px-2">검토</th>
+              <th class="w-20 bg-slate-100 font-semibold text-slate-700 py-1 px-2">승인</th>
+            </tr>
+            <tr class="h-14">
+              <td class="p-1 align-middle"><input id="appDrafter" type="text" placeholder="서명/날짜" class="w-full text-center text-[11px] text-slate-800 focus:outline-none focus:bg-indigo-50 rounded py-1" /></td>
+              <td class="p-1 align-middle"><input id="appReviewer" type="text" placeholder="서명/날짜" class="w-full text-center text-[11px] text-slate-800 focus:outline-none focus:bg-indigo-50 rounded py-1" /></td>
+              <td class="p-1 align-middle"><input id="appApprover" type="text" placeholder="서명/날짜" class="w-full text-center text-[11px] text-slate-800 focus:outline-none focus:bg-indigo-50 rounded py-1" /></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Checklist Integration Bar (No Print) -->
+    <section class="no-print mt-4 p-3.5 rounded-xl border border-teal-300 bg-teal-50/70 flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-start gap-2.5">
+        <i data-lucide="link" class="w-5 h-5 text-teal-700 shrink-0 mt-0.5"></i>
+        <div>
+          <h3 class="text-xs sm:text-sm font-bold text-teal-950">안전보건점검 체크리스트 연동 (지적사항 자동 불러오기)</h3>
+          <p class="text-[11px] text-teal-800 mt-0.5">기존 안전보건점검표에서 <strong>미실시·미흡</strong>으로 판정된 항목과 코멘트를 위험성평가 유해·위험 요인으로 바로 가져옵니다.</p>
+        </div>
+      </div>
+      <div class="flex flex-wrap items-center gap-2">
+        <button id="btnSyncLocalChecklist" type="button" class="px-3 py-1.5 rounded-lg bg-teal-700 hover:bg-teal-600 text-white text-xs font-bold shadow-xs transition">
+          이 기기 점검표 바로 불러오기
+        </button>
+        <label class="px-3 py-1.5 rounded-lg bg-white border border-teal-400 hover:bg-teal-100 text-teal-900 text-xs font-semibold cursor-pointer transition">
+          체크리스트 .json 불러오기
+          <input id="inputImportChecklistJson" type="file" accept=".json" class="hidden" />
+        </label>
+      </div>
+    </section>
+
+    <!-- Basic Info & 2026 Revision Assessment Classification -->
+    <section class="mt-4 print-break-inside-avoid">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border border-slate-300 rounded-lg overflow-hidden text-xs sm:text-sm">
+        <div class="flex border-b sm:border-r border-slate-300">
+          <span class="w-28 shrink-0 bg-slate-100 font-semibold text-slate-700 px-3 py-2 flex items-center border-r border-slate-300">사업장명</span>
+          <input id="metaCompany" type="text" placeholder="사업장명 입력" class="w-full px-2.5 py-2 focus:outline-none focus:bg-indigo-50" />
+        </div>
+        <div class="flex border-b lg:border-r border-slate-300">
+          <span class="w-28 shrink-0 bg-slate-100 font-semibold text-slate-700 px-3 py-2 flex items-center border-r border-slate-300">업종 / 인원</span>
+          <input id="metaIndustry" type="text" placeholder="예: 제조업 / 60명" class="w-full px-2.5 py-2 focus:outline-none focus:bg-indigo-50" />
+        </div>
+        <div class="flex border-b sm:border-r border-slate-300">
+          <span class="w-28 shrink-0 bg-slate-100 font-semibold text-slate-700 px-3 py-2 flex items-center border-r border-slate-300">평가 실시일</span>
+          <input id="metaEvalDate" type="date" class="w-full px-2.5 py-2 focus:outline-none focus:bg-indigo-50" />
+        </div>
+        <div class="flex border-b border-slate-300">
+          <span class="w-28 shrink-0 bg-slate-100 font-semibold text-slate-700 px-3 py-2 flex items-center border-r border-slate-300">평가 구분</span>
+          <select id="metaEvalType" aria-label="평가 구분" class="w-full px-2 py-2 bg-white font-semibold text-indigo-800 focus:outline-none">
+            <option value="최초평가">최초평가 (작업시작 전)</option>
+            <option value="정기평가" selected>정기평가 (연 1회 이상)</option>
+            <option value="수시평가">수시평가 (변경·재해 등)</option>
+            <option value="상시평가">상시평가 (정기평가 갈음)</option>
+          </select>
+        </div>
+        <div class="flex border-b sm:border-b-0 sm:border-r border-slate-300 lg:col-span-2">
+          <span class="w-28 shrink-0 bg-slate-100 font-semibold text-slate-700 px-3 py-2 flex items-center border-r border-slate-300">평가대상 공정</span>
+          <input id="metaProcess" type="text" placeholder="예: 전 공정 / 출하·물류 및 사무실" class="w-full px-2.5 py-2 focus:outline-none focus:bg-indigo-50" />
+        </div>
+        <div class="flex lg:col-span-2">
+          <span class="w-28 shrink-0 bg-slate-100 font-semibold text-slate-700 px-3 py-2 flex items-center border-r border-slate-300">수시평가 사유</span>
+          <input id="metaOccasionalReason" type="text" placeholder="수시평가 시 기재 (설비변경·작업변경·아차사고 등)" class="w-full px-2.5 py-2 focus:outline-none focus:bg-indigo-50" />
+        </div>
+      </div>
+      <div id="continuousNoticeBox" class="hidden mt-2 px-3 py-2 rounded-lg bg-amber-50 border border-amber-200 text-xs text-amber-900">
+        <strong>[2026. 11. 4. 개정 지침 제16조]</strong> 상시평가는 <strong>정기평가만 갈음</strong>됩니다. 설비 도입·이전, 작업방법 변경, 재해 발생 시에는 반드시 <strong>수시평가</strong>를 별도로 실시하세요.
+      </div>
+    </section>
+
+    <!-- Evaluation Type & Method Selector (No Print) -->
+    <section class="no-print mt-5 p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
+      <div class="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-200">
+        <div>
+          <span class="text-xs font-bold text-slate-800 block">평가 시기·유형 선택 (지침 제13조~제16조)</span>
+          <span class="text-[11px] text-slate-500">용도에 맞게 최초·정기·수시·상시평가를 선택하면 문서 제목과 안내가 즉시 변경됩니다.</span>
+        </div>
+        <div class="flex flex-wrap gap-1.5">
+          <button type="button" data-eval-type="최초평가" class="eval-type-btn px-3 py-2 rounded-lg text-xs font-bold border transition">최초평가</button>
+          <button type="button" data-eval-type="정기평가" class="eval-type-btn px-3 py-2 rounded-lg text-xs font-bold border transition">정기평가</button>
+          <button type="button" data-eval-type="수시평가" class="eval-type-btn px-3 py-2 rounded-lg text-xs font-bold border transition">수시평가</button>
+          <button type="button" data-eval-type="상시평가" class="eval-type-btn px-3 py-2 rounded-lg text-xs font-bold border transition">상시평가</button>
+        </div>
+      </div>
+      <div class="flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <span class="text-xs font-bold text-slate-800 block">위험성평가 방법 선택 (지침 제9조 · 체크리스트법 제외 3종)</span>
+          <span class="text-[11px] text-slate-500">사업장 규모·특성에 맞는 기법을 선택하면 아래 평가표 양식이 즉시 전환됩니다.</span>
+        </div>
+        <div class="flex flex-wrap gap-1.5">
+          <button type="button" data-method="matrix" class="method-btn px-3 py-2 rounded-lg text-xs font-bold border transition">1. 빈도·강도법 (5×4)</button>
+          <button type="button" data-method="level3" class="method-btn px-3 py-2 rounded-lg text-xs font-bold border transition">2. 위험성 수준 3단계(저·중·고)</button>
+          <button type="button" data-method="ops" class="method-btn px-3 py-2 rounded-lg text-xs font-bold border transition">3. 핵심 요인 기술법 (OPS)</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Prior Safety & Health Info (제20조) & Worker Participation 4 Steps (제6조) -->
+    <section class="mt-5 grid grid-cols-1 lg:grid-cols-2 gap-4 print-break-inside-avoid">
+      <!-- Prior Info -->
+      <div class="border border-slate-300 rounded-xl p-3.5 bg-white">
+        <h3 class="text-xs sm:text-sm font-bold text-slate-900 mb-2 pb-1.5 border-b border-slate-200">
+          사전 안전보건정보 조사 확인 (지침 제20조)
+        </h3>
+        <div id="priorInfoChecks" class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-xs text-slate-700"></div>
+        <p class="text-[11px] text-slate-500 mt-2">* 근골격계 유해요인조사·작업환경측정·건강진단 등은 갈음이 아닌 사전참고 정보로 활용합니다.</p>
+      </div>
+
+      <!-- Worker Participation 4 Steps -->
+      <div class="border border-slate-300 rounded-xl p-3.5 bg-white">
+        <h3 class="text-xs sm:text-sm font-bold text-slate-900 mb-2 pb-1.5 border-b border-slate-200">
+          근로자 참여 4단계 및 순회점검 확인 (지침 제6조)
+        </h3>
+        <div id="participationStepChecks" class="space-y-1.5 text-xs text-slate-700"></div>
+        <div class="mt-2.5 pt-2 border-t border-slate-200">
+          <input id="metaParticipants" type="text" placeholder="참여 근로자 성명/부서 입력 (예: 생산팀 박OO, 물류팀 최OO 등 3명)" class="w-full text-xs border border-slate-300 rounded-lg px-2.5 py-1.5 focus:outline-none focus:ring-1 focus:ring-indigo-500" />
+        </div>
+      </div>
+    </section>
+
+    <!-- Live KPI Summary -->
+    <section class="mt-5 print-break-inside-avoid">
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+        <div class="rounded-lg border border-slate-200 bg-slate-50 p-2.5 text-center">
+          <div class="text-[11px] font-medium text-slate-500">파악된 유해·위험 요인</div>
+          <div id="kpiHazardTotal" class="text-lg sm:text-xl font-bold text-slate-900 mt-0.5">0건</div>
+        </div>
+        <div class="rounded-lg border border-rose-200 bg-rose-50 p-2.5 text-center">
+          <div class="text-[11px] font-semibold text-rose-700">허용 불가 (개선 필요)</div>
+          <div id="kpiUnacceptable" class="text-lg sm:text-xl font-bold text-rose-700 mt-0.5">0건</div>
+        </div>
+        <div class="rounded-lg border border-emerald-200 bg-emerald-50 p-2.5 text-center">
+          <div class="text-[11px] font-semibold text-emerald-700">허용 가능</div>
+          <div id="kpiAcceptable" class="text-lg sm:text-xl font-bold text-emerald-700 mt-0.5">0건</div>
+        </div>
+        <div class="rounded-lg border border-indigo-200 bg-indigo-600 p-2.5 text-center text-white">
+          <div class="text-[11px] font-medium text-indigo-100">감소대책 이행 완료</div>
+          <div id="kpiDone" class="text-lg sm:text-xl font-bold mt-0.5">0건</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Risk Assessment Table Section -->
+    <section class="mt-5">
+      <div class="flex flex-wrap items-center justify-between gap-2 mb-2.5">
+        <h3 class="text-sm sm:text-base font-bold text-slate-900">유해·위험 요인 파악 및 위험성 평가표</h3>
+        <div class="no-print flex flex-wrap items-center gap-2">
+          <button id="btnAddHazardRow" type="button" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold shadow-xs transition">
+            <i data-lucide="plus" class="w-4 h-4"></i> + 유해·위험 요인 추가
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Cards -->
+      <div id="mobileHazardCards" class="md:hidden print-hide-mobile space-y-3.5"></div>
+
+      <!-- Desktop & Print Table -->
+      <div class="hidden md:block print-show-table overflow-x-auto border border-slate-300 rounded-lg">
+        <table class="w-full text-left border-collapse text-xs">
+          <thead id="hazardTableHead"></thead>
+          <tbody id="hazardTableBody" class="divide-y divide-slate-200"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Worker Participation Evidence Photos (근로자 참여 증빙 사진대지) -->
+    <section id="participationPhotoSection" class="mt-7 pt-5 border-t-2 border-slate-800 print-break-before">
+      <div class="flex flex-wrap items-center justify-between gap-3 mb-3">
+        <div>
+          <h3 class="text-sm sm:text-base font-bold text-slate-900 flex items-center gap-2">
+            <i data-lucide="camera" class="w-4 h-4 text-indigo-600 no-print"></i>
+            <span>[증빙] 근로자 참여 · 순회점검 · 공유 활동 사진</span>
+            <span id="photoCountBadge" class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700">0장</span>
+          </h3>
+          <p class="text-xs text-slate-500 mt-0.5">근로자 참여 순회점검, 위험성평가 회의, TBM 공유 사진을 첨부하면 자동 압축되어 인쇄 시 2열 증빙자료로 출력됩니다.</p>
+        </div>
+
+        <div class="no-print flex flex-wrap items-center gap-2.5">
+          <label class="inline-flex items-center gap-1.5 text-xs font-medium text-slate-700 cursor-pointer">
+            <input id="printIncludePhotosCheckbox" type="checkbox" class="w-4 h-4 accent-indigo-600 rounded" checked />
+            <span>인쇄 시 참여 증빙사진 포함</span>
+          </label>
+          <label class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold shadow cursor-pointer transition">
+            <i data-lucide="image-plus" class="w-4 h-4"></i> 참여 증빙사진 추가
+            <input id="photoUploadInput" type="file" accept="image/*" multiple class="hidden" />
+          </label>
+        </div>
+      </div>
+
+      <div id="photoGridContainer" class="grid grid-cols-1 md:grid-cols-2 print:grid-cols-2 gap-4"></div>
+    </section>
+
+    <!-- Worker Sharing (제17조) & 3-Year Retention Start Date (제21조) -->
+    <section class="mt-6 print-break-inside-avoid border border-slate-300 rounded-xl p-4 bg-slate-50/70 text-xs sm:text-sm">
+      <h3 class="text-sm font-bold text-slate-900 mb-3 pb-1.5 border-b border-slate-300">
+        근로자 공유(제17조) 및 기록 보존 기산일 관리(제21조)
+      </h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="space-y-2">
+          <div class="font-semibold text-slate-800 text-xs">실시 전·후 근로자 공유 방법</div>
+          <div id="sharingMethodChecks" class="flex flex-wrap gap-2 text-xs"></div>
+          <label class="flex items-center gap-2 text-xs text-slate-700 pt-1 cursor-pointer">
+            <input id="chkNewWorkerShared" type="checkbox" class="w-4 h-4 accent-indigo-600 rounded" />
+            <span>신규채용·작업변경 근로자 작업 시작 전 위험성평가 결과 공유 완료</span>
+          </label>
+        </div>
+
+        <div class="space-y-2 bg-white border border-slate-200 rounded-lg p-3">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <label for="metaPlanCompleteDate" class="text-xs font-bold text-slate-800">개선대책 수립 완료일 (제21조)</label>
+            <input id="metaPlanCompleteDate" type="date" class="text-xs border border-slate-300 rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-indigo-500" />
+          </div>
+          <div id="retentionDisplay" class="text-xs text-indigo-800 font-semibold pt-1">
+            보존 기한: 개선대책 수립 완료일을 입력하면 자동 계산됩니다 (완료일 다음 날부터 3년).
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bottom Signatures: 평가책임자 & 근로자 대표 -->
+    <section class="mt-6 print-break-inside-avoid">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div class="border border-slate-400 rounded-lg p-4 bg-slate-50/50">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-sm font-bold text-slate-900">평가책임자 확인 (서명)</span>
+            <button type="button" data-sig-target="manager" class="open-sig-btn no-print inline-flex items-center gap-1 px-2.5 py-1.5 rounded bg-white border border-slate-300 hover:bg-slate-100 text-xs font-medium text-slate-700">
+              <i data-lucide="pen-tool" class="w-3.5 h-3.5"></i> 전자서명
+            </button>
+          </div>
+          <p class="text-xs text-slate-600 mb-3">위 위험성평가 결과 및 감소대책 수립·이행 계획을 확인합니다.</p>
+          <div class="flex flex-wrap items-center justify-between gap-3 pt-2.5 border-t border-slate-300">
+            <div class="flex-1 min-w-[160px] space-y-1.5 text-xs text-slate-700">
+              <div class="flex items-center gap-1.5">
+                <span class="w-9 shrink-0 font-medium text-slate-600">직책:</span>
+                <input id="sigManagerTitleInput" type="text" placeholder="예: 안전보건관리책임자" class="w-full border border-slate-300 rounded px-2 py-1 bg-white text-slate-900" />
+              </div>
+              <div class="flex items-center gap-1.5">
+                <span class="w-9 shrink-0 font-medium text-slate-600">성명:</span>
+                <input id="sigManagerNameInput" type="text" placeholder="성명 직접 입력" class="w-full border border-slate-300 rounded px-2 py-1 bg-white font-semibold text-slate-900" />
+              </div>
+            </div>
+            <div class="w-36 h-16 border border-dashed border-slate-300 rounded bg-white flex items-center justify-center overflow-hidden shrink-0">
+              <img id="sigManagerImg" alt="평가책임자 서명" class="max-h-full max-w-full hidden" />
+              <span id="sigManagerPlaceholder" class="text-[11px] text-slate-400">(서명 또는 인)</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="border border-slate-400 rounded-lg p-4 bg-slate-50/50">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-sm font-bold text-slate-900">근로자 대표(참여자) 확인 (서명)</span>
+            <button type="button" data-sig-target="worker" class="open-sig-btn no-print inline-flex items-center gap-1 px-2.5 py-1.5 rounded bg-white border border-slate-300 hover:bg-slate-100 text-xs font-medium text-slate-700">
+              <i data-lucide="pen-tool" class="w-3.5 h-3.5"></i> 전자서명
+            </button>
+          </div>
+          <p class="text-xs text-slate-600 mb-3">위험성평가 전 과정(4단계)에 참여하고 결과를 공유받았음을 확인합니다.</p>
+          <div class="flex flex-wrap items-center justify-between gap-3 pt-2.5 border-t border-slate-300">
+            <div class="flex-1 min-w-[160px] space-y-1.5 text-xs text-slate-700">
+              <div class="flex items-center gap-1.5">
+                <span class="w-9 shrink-0 font-medium text-slate-600">직책:</span>
+                <input id="sigWorkerTitleInput" type="text" placeholder="예: 근로자 대표 / 반장" class="w-full border border-slate-300 rounded px-2 py-1 bg-white text-slate-900" />
+              </div>
+              <div class="flex items-center gap-1.5">
+                <span class="w-9 shrink-0 font-medium text-slate-600">성명:</span>
+                <input id="sigWorkerNameInput" type="text" placeholder="성명 직접 입력" class="w-full border border-slate-300 rounded px-2 py-1 bg-white font-semibold text-slate-900" />
+              </div>
+            </div>
+            <div class="w-36 h-16 border border-dashed border-slate-300 rounded bg-white flex items-center justify-center overflow-hidden shrink-0">
+              <img id="sigWorkerImg" alt="근로자 대표 서명" class="max-h-full max-w-full hidden" />
+              <span id="sigWorkerPlaceholder" class="text-[11px] text-slate-400">(서명 또는 인)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Additional Participating Workers Multi-Signature List -->
+      <div id="multiWorkerSigSection" class="mt-4 border border-slate-300 rounded-lg p-4 bg-slate-50/40">
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+          <div>
+            <span class="text-xs sm:text-sm font-bold text-slate-900">추가 참여 근로자 확인 및 서명</span>
+            <span id="multiWorkerCountBadge" class="ml-1.5 text-[11px] font-semibold px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700">0명</span>
+          </div>
+          <button id="btnAddWorkerSig" type="button" class="no-print inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold transition">
+            <i data-lucide="user-plus" class="w-3.5 h-3.5"></i> + 참여 근로자 서명 추가
+          </button>
+        </div>
+        <div id="multiWorkerSigGrid" class="grid grid-cols-1 sm:grid-cols-2 print:grid-cols-2 gap-3"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Signature Modal -->
+  <div id="sigModal" class="no-print fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-xl shadow-xl max-w-md w-full p-5">
+      <div class="flex items-center justify-between mb-3">
+        <h4 id="sigModalTitle" class="text-base font-bold text-slate-900">전자서명 입력</h4>
+        <button id="btnCloseSigModal" type="button" class="text-slate-400 hover:text-slate-700"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+      <div class="border-2 border-slate-300 rounded-lg bg-slate-50 overflow-hidden">
+        <canvas id="sigCanvas" width="400" height="180" class="sig-pad-canvas w-full h-44 bg-white"></canvas>
+      </div>
+      <div class="mt-3 flex items-center justify-between">
+        <button id="btnClearSig" type="button" class="px-3 py-1.5 rounded-lg border border-slate-300 text-xs font-medium text-slate-700 hover:bg-slate-100">지우기</button>
+        <div class="flex items-center gap-2">
+          <button id="btnRemoveSavedSig" type="button" class="px-3 py-1.5 rounded-lg border border-rose-200 text-xs font-medium text-rose-700 hover:bg-rose-50">서명 삭제</button>
+          <button id="btnSaveSig" type="button" class="px-4 py-1.5 rounded-lg bg-indigo-600 text-white text-xs font-bold hover:bg-indigo-500">서명 적용</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toastEl" class="no-print fixed bottom-5 right-5 z-50 hidden bg-slate-900 text-white text-xs sm:text-sm px-4 py-2.5 rounded-lg shadow-lg"></div>
+
+  <script>
+    const STORAGE_KEY = 'sch_oem_risk_assessment_v1';
+    const CHECKLIST_STORAGE_KEY = 'sch_oem_safety_checklist_v2_unified';
+
+    const PRIOR_INFO_LIST = [
+      '작업표준·작업절차서',
+      'MSDS·설비 사양서',
+      '공정 흐름·도급 혼재작업',
+      '재해사례·아차사고 이력',
+      '작업환경측정·건강진단 결과',
+      '근골격계 유해요인조사 결과'
+    ];
+
+    const PARTICIPATION_STEPS = [
+      '1단계: 유해·위험 요인 파악 (순회점검 참여)',
+      '2단계: 위험성 결정 및 허용가능 수준 판단',
+      '3단계: 위험성 감소대책 수립 참여',
+      '4단계: 감소대책 이행 후 허용수준 확인'
+    ];
+
+    const SHARING_METHODS = [
+      '실시 전 일정 사전 공유',
+      '안전보건교육',
+      '작업 전 TBM(안전점검회의)',
+      '사업장 게시·전자전달'
+    ];
+
+    const CHECKLIST_TITLE_MAP = {
+      1: '작업장 바닥 및 자재 넘어짐 방지', 2: '작업장 청결 및 분진 비산 방지', 3: '오염 바닥·벽 세척 및 배수 구조',
+      4: '오물 처리 및 병원체 소독·소각 관리', 5: '작업장 채광·조명 및 작업면 조도 기준', 6: '적정 작업높이 발판 및 창문 안전',
+      7: '작업장 출입구 설치 및 안전 기준', 8: '동력문 비상정지 및 수동 개폐 구조', 9: '안전난간 구조 및 하중 기준',
+      10: '낙하물 방지 및 투하설비·감시인', 11: '별표 1 위험물질 분리 보관', 12: '위험물 작업장 비상구 설치 및 유지',
+      13: '옥내작업장 경보용 설비 설치', 14: '위험작업·장소 울타리 및 출입금지', 15: '통로 채광·조명 기준(75럭스 이상)',
+      16: '안전한 통로 확보 및 장애물 제거', 17: '가설통로 경사·미끄럼방지·난간', 18: '사다리식 통로 설치·고정 기준',
+      20: '계단 강도·폭 및 적치물 금지', 21: '계단참·천장높이 및 계단 난간', 22: '설비개선 우선 및 보호구 제한 사용',
+      23: '작업조건별 보호구 지급 및 착용', 24: '보호구 점검·청결 및 개인 전용 지급', 25: '관리감독자 직무 및 작업 전 점검',
+      26: '미인증·부적합 기계·설비·보호구 사용 금지', 28: '위험작업 사전조사 및 작업계획서 작성·주지',
+      30: '작업발판·추락방호망 및 이동식 사다리 안전', 31: '개구부 방호조치 및 안전대 부착설비',
+      40: '국소배기장치 후드 및 덕트 기준', 42: '전체환기장치 기준 및 작업 중 상시 가동',
+      43: '휴게시설 격리 설치 및 세척·탈의시설', 45: '구급용구 비치·관리 및 사용법 주지',
+      46: '유해가스 발산 억제·환기 및 잔재물 처리', 47: '기계 탑승 제한, 회전부 방호 및 동력차단장치',
+      48: '운전 전 조치, 정비 시 운전정지(LOTO) 및 방호장치 유지', 55: '차량계 하역운반기계(지게차·고소작업대)',
+      61: '화재위험작업(용접·용단) 준수사항 및 화재감시자', 65: '충전부 방호, 전기기계 접지 및 누전차단기 설치',
+      75: '관리대상 유해물질 밀폐·국소배기설비 및 누출방지', 76: '작업수칙 준수 및 특별관리물질 취급일지·고지',
+      77: '관리대상 유해물질 저장·명칭게시·세척시설·보호구', 81: '소음 감소조치, 청력보호구 지급 및 청력보존프로그램',
+      84: '고열·폭염작업 온습도 조절 및 열사병 예방조치', 85: '한랭·다습장해 예방, 휴식·세척시설·음료수·보호구',
+      87: '감염병 예방조치, 유해성 주지 및 가검물 오염 방지', 88: '혈액·공기·곤충매개 감염 노출 예방 및 사후관리',
+      90: '밀폐공간 작업프로그램 수립, 산소·유해가스 측정 및 환기', 92: '사무실 공기정화설비 가동·유지관리 및 공기질 평가',
+      94: '근골격계 유해요인 조사(3년·수시), 작업개선 및 예방프로그램', 96: '컴퓨터 단말기(VDT) 조작업무 환경 및 휴식 조치',
+      98: '직무스트레스(장시간·교대·감정노동) 예방 및 농약 방제조치'
+    };
+
+    let state = {
+      method: 'matrix', // 'matrix' | 'level3' | 'ops'
+      approval: { drafter: '', reviewer: '', approver: '' },
+      meta: {
+        companyName: '',
+        industryWorkers: '',
+        evalDate: '2026-11-27',
+        evalType: '정기평가',
+        processName: '',
+        occasionalReason: '',
+        participants: '',
+        planCompleteDate: '',
+        sigManagerTitle: '',
+        sigManagerName: '',
+        sigWorkerTitle: '',
+        sigWorkerName: ''
+      },
+      priorInfo: {},
+      participationSteps: {},
+      sharingMethods: {},
+      newWorkerShared: false,
+      printIncludePhotos: true,
+      signatures: { manager: '', worker: '' },
+      participantSignatures: [],
+      hazards: [
+        {
+          id: 'hz_sample_1',
+          source: '순회점검',
+          process: '물류·출하장',
+          hazardDesc: '이동식 사다리 최상부 디딤대 올라서서 고소작업 시 추락 위험',
+          currentMeasure: '안전모 비치되어 있으나 2인 1조 지지 미흡',
+          freq: 3,
+          sev: 3,
+          level3: '고',
+          opsKeyFactor: '높이 2m 이상 사다리 작업 시 추락(사망·중상 위험)',
+          measure: '고소작업대(또는 아웃트리거 부착 사다리) 사용, 안전대 체결 및 2인 1조 작업',
+          afterFreq: 1,
+          afterSev: 2,
+          afterLevel3: '저',
+          acceptableAfter: '허용 가능',
+          owner: '물류팀장',
+          dueDate: '2026-12-10',
+          done: false
+        }
+      ],
+      photos: []
+    };
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          state = {
+            ...state,
+            ...parsed,
+            approval: { ...state.approval, ...(parsed.approval || {}) },
+            meta: { ...state.meta, ...(parsed.meta || {}) },
+            signatures: { ...state.signatures, ...(parsed.signatures || {}) },
+            participantSignatures: Array.isArray(parsed.participantSignatures) ? parsed.participantSignatures : [],
+            hazards: Array.isArray(parsed.hazards) ? parsed.hazards : state.hazards,
+            photos: Array.isArray(parsed.photos) ? parsed.photos : []
+          };
+        }
+      } catch (e) {}
+    }
+
+    function saveState() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      } catch (e) {}
+    }
+
+    function showToast(msg) {
+      const el = document.getElementById('toastEl');
+      el.textContent = msg;
+      el.classList.remove('hidden');
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(() => el.classList.add('hidden'), 2800);
+    }
+
+    function escapeHtml(str) {
+      return String(str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    function calcMatrixResult(freq, sev) {
+      const score = Number(freq || 1) * Number(sev || 1);
+      let label = '허용 가능';
+      let badgeCls = 'bg-emerald-100 text-emerald-800';
+      if (score >= 12) {
+        label = '매우 높음 (즉시개선)';
+        badgeCls = 'bg-rose-600 text-white';
+      } else if (score >= 9) {
+        label = '높음 (허용불가)';
+        badgeCls = 'bg-amber-500 text-white';
+      } else if (score >= 4) {
+        label = '보통 (관리유지)';
+        badgeCls = 'bg-sky-100 text-sky-800';
+      }
+      return { score, label, badgeCls, unacceptable: score >= 9 };
+    }
+
+    function isHazardUnacceptable(hz) {
+      if (state.method === 'matrix') return calcMatrixResult(hz.freq, hz.sev).unacceptable;
+      if (state.method === 'level3') return hz.level3 === '고' || hz.level3 === '중';
+      return hz.acceptableAfter !== '허용 가능';
+    }
+
+    function renderCheckboxes() {
+      const priorEl = document.getElementById('priorInfoChecks');
+      priorEl.innerHTML = PRIOR_INFO_LIST.map(label => {
+        const checked = state.priorInfo[label] ? 'checked' : '';
+        return `<label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" data-prior="${escapeHtml(label)}" class="prior-chk w-3.5 h-3.5 accent-indigo-600 rounded" ${checked} /><span>${label}</span></label>`;
+      }).join('');
+
+      const partEl = document.getElementById('participationStepChecks');
+      partEl.innerHTML = PARTICIPATION_STEPS.map(label => {
+        const checked = state.participationSteps[label] ? 'checked' : '';
+        return `<label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" data-part-step="${escapeHtml(label)}" class="part-step-chk w-3.5 h-3.5 accent-indigo-600 rounded" ${checked} /><span>${label}</span></label>`;
+      }).join('');
+
+      const shareEl = document.getElementById('sharingMethodChecks');
+      shareEl.innerHTML = SHARING_METHODS.map(label => {
+        const checked = state.sharingMethods[label] ? 'checked' : '';
+        return `<label class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-white border border-slate-300 cursor-pointer"><input type="checkbox" data-share="${escapeHtml(label)}" class="share-chk w-3.5 h-3.5 accent-indigo-600 rounded" ${checked} /><span>${label}</span></label>`;
+      }).join('');
+    }
+
+    function updateRetentionText() {
+      const val = state.meta.planCompleteDate;
+      const el = document.getElementById('retentionDisplay');
+      if (!val) {
+        el.textContent = '보존 기한: 개선대책 수립 완료일을 입력하면 자동 계산됩니다 (완료일 다음 날부터 3년).';
+        return;
+      }
+      const d = new Date(val + 'T00:00:00');
+      if (isNaN(d.getTime())) return;
+      const start = new Date(d);
+      start.setDate(start.getDate() + 1);
+      const end = new Date(start);
+      end.setFullYear(end.getFullYear() + 3);
+      const fmt = dt => `${dt.getFullYear()}-${String(dt.getMonth() + 1).padStart(2, '0')}-${String(dt.getDate()).padStart(2, '0')}`;
+      el.textContent = `법적 보존 기한: ${fmt(start)} ~ ${fmt(end)} (3년간 전자·문서 보존)`;
+    }
+
+    function syncHeaderInputs() {
+      document.getElementById('appDrafter').value = state.approval.drafter || '';
+      document.getElementById('appReviewer').value = state.approval.reviewer || '';
+      document.getElementById('appApprover').value = state.approval.approver || '';
+
+      document.getElementById('metaCompany').value = state.meta.companyName || '';
+      document.getElementById('metaIndustry').value = state.meta.industryWorkers || '';
+      document.getElementById('metaEvalDate').value = state.meta.evalDate || '';
+      document.getElementById('metaEvalType').value = state.meta.evalType || '정기평가';
+      document.getElementById('metaProcess').value = state.meta.processName || '';
+      document.getElementById('metaOccasionalReason').value = state.meta.occasionalReason || '';
+      document.getElementById('metaParticipants').value = state.meta.participants || '';
+      document.getElementById('metaPlanCompleteDate').value = state.meta.planCompleteDate || '';
+      document.getElementById('chkNewWorkerShared').checked = !!state.newWorkerShared;
+      document.getElementById('printIncludePhotosCheckbox').checked = state.printIncludePhotos !== false;
+
+      document.getElementById('sigManagerTitleInput').value = state.meta.sigManagerTitle || '';
+      document.getElementById('sigManagerNameInput').value = state.meta.sigManagerName || '';
+      document.getElementById('sigWorkerTitleInput').value = state.meta.sigWorkerTitle || '';
+      document.getElementById('sigWorkerNameInput').value = state.meta.sigWorkerName || '';
+
+      document.getElementById('docEvalTypeBadge').textContent = `[${state.meta.evalType || '정기평가'}]`;
+      document.getElementById('continuousNoticeBox').classList.toggle('hidden', state.meta.evalType !== '상시평가');
+
+      const methodLabels = {
+        matrix: '적용 기법: 빈도·강도법 (가능성 1~5 × 중대성 1~4)',
+        level3: '적용 기법: 위험성 수준 3단계 판단법 (저 · 중 · 고)',
+        ops: '적용 기법: 핵심 요인 기술법 (One Point Sheet)'
+      };
+      document.getElementById('docMethodSubtitle').textContent = methodLabels[state.method] || methodLabels.matrix;
+
+      document.querySelectorAll('.eval-type-btn').forEach(btn => {
+        const active = btn.dataset.evalType === (state.meta.evalType || '정기평가');
+        btn.className = active
+          ? 'eval-type-btn px-3 py-2 rounded-lg text-xs font-bold border bg-slate-800 text-white border-slate-900 shadow-xs transition'
+          : 'eval-type-btn px-3 py-2 rounded-lg text-xs font-bold border bg-white text-slate-700 border-slate-300 hover:bg-slate-100 transition';
+      });
+
+      document.querySelectorAll('.method-btn').forEach(btn => {
+        const active = btn.dataset.method === state.method;
+        btn.className = active
+          ? 'method-btn px-3 py-2 rounded-lg text-xs font-bold border bg-indigo-600 text-white border-indigo-700 shadow-xs transition'
+          : 'method-btn px-3 py-2 rounded-lg text-xs font-bold border bg-white text-slate-700 border-slate-300 hover:bg-slate-100 transition';
+      });
+
+      updateRetentionText();
+      updateSignaturePreview('manager');
+      updateSignaturePreview('worker');
+    }
+
+    function updateSignaturePreview(target) {
+      const img = document.getElementById(target === 'manager' ? 'sigManagerImg' : 'sigWorkerImg');
+      const placeholder = document.getElementById(target === 'manager' ? 'sigManagerPlaceholder' : 'sigWorkerPlaceholder');
+      const dataUrl = state.signatures[target];
+      if (dataUrl) {
+        img.src = dataUrl;
+        img.classList.remove('hidden');
+        placeholder.classList.add('hidden');
+      } else {
+        img.src = '';
+        img.classList.add('hidden');
+        placeholder.classList.remove('hidden');
+      }
+    }
+
+    function renderKPIs() {
+      const total = state.hazards.length;
+      let unacceptable = 0;
+      let done = 0;
+      state.hazards.forEach(hz => {
+        if (isHazardUnacceptable(hz)) unacceptable++;
+        if (hz.done) done++;
+      });
+      document.getElementById('kpiHazardTotal').textContent = `${total}건`;
+      document.getElementById('kpiUnacceptable').textContent = `${unacceptable}건`;
+      document.getElementById('kpiAcceptable').textContent = `${total - unacceptable}건`;
+      document.getElementById('kpiDone').textContent = `${done}건`;
+    }
+
+    function renderHazards() {
+      const thead = document.getElementById('hazardTableHead');
+      const tbody = document.getElementById('hazardTableBody');
+      const mobileWrap = document.getElementById('mobileHazardCards');
+      tbody.innerHTML = '';
+      mobileWrap.innerHTML = '';
+
+      if (state.method === 'matrix') {
+        thead.innerHTML = `
+          <tr class="bg-slate-800 text-white text-center">
+            <th class="py-2 px-1.5 w-9 border-r border-slate-600">No</th>
+            <th class="py-2 px-2 w-28 border-r border-slate-600">공정 / 출처</th>
+            <th class="py-2 px-2 min-w-[180px] border-r border-slate-600">유해·위험 요인 및 현재 조치</th>
+            <th class="py-2 px-1.5 w-32 border-r border-slate-600">현재 위험성<br/>(빈도×강도)</th>
+            <th class="py-2 px-2 min-w-[170px] border-r border-slate-600">위험성 감소대책</th>
+            <th class="py-2 px-1.5 w-28 border-r border-slate-600">개선 후<br/>잔여위험</th>
+            <th class="py-2 px-2 w-28 border-r border-slate-600">담당/기한/완료</th>
+            <th class="no-print py-2 px-1.5 w-12">삭제</th>
+          </tr>`;
+      } else if (state.method === 'level3') {
+        thead.innerHTML = `
+          <tr class="bg-slate-800 text-white text-center">
+            <th class="py-2 px-1.5 w-9 border-r border-slate-600">No</th>
+            <th class="py-2 px-2 w-28 border-r border-slate-600">공정 / 출처</th>
+            <th class="py-2 px-2 min-w-[190px] border-r border-slate-600">유해·위험 요인 및 현재 조치</th>
+            <th class="py-2 px-1.5 w-24 border-r border-slate-600">위험성 수준<br/>(저·중·고)</th>
+            <th class="py-2 px-2 min-w-[180px] border-r border-slate-600">위험성 감소대책</th>
+            <th class="py-2 px-1.5 w-24 border-r border-slate-600">개선 후 수준</th>
+            <th class="py-2 px-2 w-28 border-r border-slate-600">담당/기한/완료</th>
+            <th class="no-print py-2 px-1.5 w-12">삭제</th>
+          </tr>`;
+      } else {
+        thead.innerHTML = `
+          <tr class="bg-slate-800 text-white text-center">
+            <th class="py-2 px-1.5 w-9 border-r border-slate-600">No</th>
+            <th class="py-2 px-2 w-28 border-r border-slate-600">공정 / 출처</th>
+            <th class="py-2 px-2 min-w-[190px] border-r border-slate-600">핵심 유해·위험 요인 (OPS)</th>
+            <th class="py-2 px-2 min-w-[140px] border-r border-slate-600">현재 안전보건조치</th>
+            <th class="py-2 px-2 min-w-[170px] border-r border-slate-600">추가 감소대책</th>
+            <th class="py-2 px-1.5 w-24 border-r border-slate-600">이행 후 확인</th>
+            <th class="py-2 px-2 w-28 border-r border-slate-600">담당/기한/완료</th>
+            <th class="no-print py-2 px-1.5 w-12">삭제</th>
+          </tr>`;
+      }
+
+      if (state.hazards.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="8" class="py-8 text-center text-slate-500">등록된 유해·위험 요인이 없습니다. 상단 버튼을 눌러 추가하거나 체크리스트를 불러오세요.</td></tr>`;
+        mobileWrap.innerHTML = `<div class="py-6 px-4 text-center text-xs text-slate-500 border border-dashed border-slate-300 rounded-xl">등록된 유해·위험 요인이 없습니다.</div>`;
+        return;
+      }
+
+      state.hazards.forEach((hz, idx) => {
+        const res = calcMatrixResult(hz.freq, hz.sev);
+        const afterRes = calcMatrixResult(hz.afterFreq || 1, hz.afterSev || 1);
+        const tr = document.createElement('tr');
+        tr.className = isHazardUnacceptable(hz) ? 'bg-rose-50/30' : '';
+
+        let evalColHtml = '';
+        let afterColHtml = '';
+
+        if (state.method === 'matrix') {
+          evalColHtml = `
+            <div class="space-y-1 text-center">
+              <div class="flex items-center justify-center gap-1">
+                <select data-hz-field="freq" data-hz-id="${hz.id}" class="border border-slate-300 rounded px-1 py-0.5 text-[11px] bg-white">
+                  ${[1,2,3,4,5].map(n => `<option value="${n}" ${Number(hz.freq)===n?'selected':''}>빈도${n}</option>`).join('')}
+                </select>
+                <span>×</span>
+                <select data-hz-field="sev" data-hz-id="${hz.id}" class="border border-slate-300 rounded px-1 py-0.5 text-[11px] bg-white">
+                  ${[1,2,3,4].map(n => `<option value="${n}" ${Number(hz.sev)===n?'selected':''}>강도${n}</option>`).join('')}
+                </select>
+              </div>
+              <div class="inline-block px-1.5 py-0.5 rounded text-[10px] font-bold ${res.badgeCls}">${res.score}점 · ${res.label}</div>
+            </div>`;
+          afterColHtml = `
+            <div class="space-y-1 text-center">
+              <div class="flex items-center justify-center gap-1">
+                <select data-hz-field="afterFreq" data-hz-id="${hz.id}" class="border border-slate-300 rounded px-1 py-0.5 text-[11px] bg-white">
+                  ${[1,2,3,4,5].map(n => `<option value="${n}" ${Number(hz.afterFreq||1)===n?'selected':''}>${n}</option>`).join('')}
+                </select>
+                <span>×</span>
+                <select data-hz-field="afterSev" data-hz-id="${hz.id}" class="border border-slate-300 rounded px-1 py-0.5 text-[11px] bg-white">
+                  ${[1,2,3,4].map(n => `<option value="${n}" ${Number(hz.afterSev||1)===n?'selected':''}>${n}</option>`).join('')}
+                </select>
+              </div>
+              <div class="inline-block px-1.5 py-0.5 rounded text-[10px] font-bold ${afterRes.badgeCls}">${afterRes.score}점</div>
+            </div>`;
+        } else if (state.method === 'level3') {
+          const lvCls = v => v === '고' ? 'bg-rose-600 text-white' : (v === '중' ? 'bg-amber-500 text-white' : 'bg-emerald-100 text-emerald-800');
+          evalColHtml = `
+            <select data-hz-field="level3" data-hz-id="${hz.id}" class="w-full text-center font-bold border border-slate-300 rounded py-1 px-1 text-xs ${lvCls(hz.level3)}">
+              <option value="저" class="bg-white text-slate-900" ${hz.level3==='저'?'selected':''}>저 (허용가능)</option>
+              <option value="중" class="bg-white text-slate-900" ${hz.level3==='중'?'selected':''}>중 (계획개선)</option>
+              <option value="고" class="bg-white text-slate-900" ${hz.level3==='고'?'selected':''}>고 (즉시개선)</option>
+            </select>`;
+          afterColHtml = `
+            <select data-hz-field="afterLevel3" data-hz-id="${hz.id}" class="w-full text-center font-bold border border-slate-300 rounded py-1 px-1 text-xs ${lvCls(hz.afterLevel3||'저')}">
+              <option value="저" class="bg-white text-slate-900" ${(hz.afterLevel3||'저')==='저'?'selected':''}>저 (허용)</option>
+              <option value="중" class="bg-white text-slate-900" ${hz.afterLevel3==='중'?'selected':''}>중</option>
+              <option value="고" class="bg-white text-slate-900" ${hz.afterLevel3==='고'?'selected':''}>고</option>
+            </select>`;
+        } else {
+          evalColHtml = `<textarea data-hz-field="currentMeasure" data-hz-id="${hz.id}" rows="3" placeholder="현재 안전보건조치" class="w-full text-xs border border-slate-200 rounded p-1.5 bg-slate-50">${escapeHtml(hz.currentMeasure)}</textarea>`;
+          afterColHtml = `
+            <select data-hz-field="acceptableAfter" data-hz-id="${hz.id}" class="w-full text-center font-bold border border-slate-300 rounded py-1 px-1 text-xs ${hz.acceptableAfter==='허용 가능'?'bg-emerald-100 text-emerald-800':'bg-rose-100 text-rose-800'}">
+              <option value="허용 가능" ${hz.acceptableAfter==='허용 가능'?'selected':''}>허용 가능</option>
+              <option value="추가 개선 필요" ${hz.acceptableAfter!=='허용 가능'?'selected':''}>개선 필요</option>
+            </select>`;
+        }
+
+        const hazardColHtml = state.method === 'ops'
+          ? `<textarea data-hz-field="hazardDesc" data-hz-id="${hz.id}" rows="3" placeholder="핵심 유해·위험 요인(누가/어떤 작업 중/어떤 위험)" class="w-full text-xs font-medium border border-slate-200 rounded p-1.5">${escapeHtml(hz.hazardDesc)}</textarea>`
+          : `<div class="space-y-1">
+               <textarea data-hz-field="hazardDesc" data-hz-id="${hz.id}" rows="2" placeholder="유해·위험 요인 입력" class="w-full text-xs font-medium border border-slate-200 rounded p-1">${escapeHtml(hz.hazardDesc)}</textarea>
+               <input type="text" data-hz-field="currentMeasure" data-hz-id="${hz.id}" value="${escapeHtml(hz.currentMeasure)}" placeholder="현재 조치사항" class="w-full text-[11px] text-slate-600 border border-slate-200 rounded p-1 bg-slate-50" />
+             </div>`;
+
+        tr.innerHTML = `
+          <td class="py-2 px-1.5 text-center font-semibold border-r border-slate-200 align-top">${idx + 1}</td>
+          <td class="py-2 px-1.5 border-r border-slate-200 align-top space-y-1">
+            <input type="text" data-hz-field="process" data-hz-id="${hz.id}" value="${escapeHtml(hz.process)}" placeholder="공정/장소" class="w-full text-xs font-semibold border border-slate-200 rounded p-1" />
+            <div class="text-[10px] text-indigo-700 font-semibold px-1">${escapeHtml(hz.source || '직접입력')}</div>
+          </td>
+          <td class="py-2 px-1.5 border-r border-slate-200 align-top">${hazardColHtml}</td>
+          <td class="py-2 px-1.5 border-r border-slate-200 align-top">${evalColHtml}</td>
+          <td class="py-2 px-1.5 border-r border-slate-200 align-top">
+            <textarea data-hz-field="measure" data-hz-id="${hz.id}" rows="3" placeholder="위험성 감소대책(공학적·관리적·보호구)" class="w-full text-xs border border-slate-200 rounded p-1.5">${escapeHtml(hz.measure)}</textarea>
+          </td>
+          <td class="py-2 px-1.5 border-r border-slate-200 align-top">${afterColHtml}</td>
+          <td class="py-2 px-1.5 border-r border-slate-200 align-top space-y-1">
+            <input type="text" data-hz-field="owner" data-hz-id="${hz.id}" value="${escapeHtml(hz.owner)}" placeholder="담당자" class="w-full text-[11px] border border-slate-200 rounded p-1" />
+            <input type="text" data-hz-field="dueDate" data-hz-id="${hz.id}" value="${escapeHtml(hz.dueDate)}" placeholder="기한" class="w-full text-[11px] border border-slate-200 rounded p-1" />
+            <label class="flex items-center gap-1 text-[11px] cursor-pointer pt-0.5">
+              <input type="checkbox" data-hz-done="${hz.id}" ${hz.done ? 'checked' : ''} class="w-3.5 h-3.5 accent-indigo-600" />
+              <span>이행완료</span>
+            </label>
+          </td>
+          <td class="no-print py-2 px-1.5 text-center align-top">
+            <button type="button" data-hz-del="${hz.id}" class="text-xs text-rose-600 hover:text-rose-800 font-semibold px-1.5 py-1 rounded hover:bg-rose-50">삭제</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+
+        // Mobile Card
+        const card = document.createElement('div');
+        card.className = `rounded-xl border p-4 space-y-2.5 ${isHazardUnacceptable(hz) ? 'border-rose-300 bg-rose-50/30' : 'border-slate-200 bg-white'}`;
+        card.innerHTML = `
+          <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+            <div class="flex items-center gap-2">
+              <span class="px-2 py-0.5 rounded bg-slate-800 text-white text-xs font-bold">#${idx + 1}</span>
+              <span class="text-xs font-semibold text-indigo-700">${escapeHtml(hz.source || '직접입력')}</span>
+            </div>
+            <button type="button" data-hz-del="${hz.id}" class="text-xs text-rose-600 font-semibold">삭제</button>
+          </div>
+          <input type="text" data-hz-field="process" data-hz-id="${hz.id}" value="${escapeHtml(hz.process)}" placeholder="공정 / 장소" class="w-full text-xs font-semibold border border-slate-300 rounded-lg p-2" />
+          <textarea data-hz-field="hazardDesc" data-hz-id="${hz.id}" rows="2" placeholder="유해·위험 요인" class="w-full text-xs border border-slate-300 rounded-lg p-2">${escapeHtml(hz.hazardDesc)}</textarea>
+          <input type="text" data-hz-field="currentMeasure" data-hz-id="${hz.id}" value="${escapeHtml(hz.currentMeasure)}" placeholder="현재 안전보건조치" class="w-full text-xs border border-slate-200 rounded-lg p-2 bg-slate-50" />
+          <div class="grid grid-cols-2 gap-2 items-center bg-slate-50 p-2 rounded-lg border border-slate-200">
+            <div><div class="text-[10px] font-semibold text-slate-500 mb-1">현재 평가</div>${state.method==='ops' ? '<span class="text-xs text-slate-600">핵심요인 기술</span>' : evalColHtml}</div>
+            <div><div class="text-[10px] font-semibold text-slate-500 mb-1">개선 후</div>${afterColHtml}</div>
+          </div>
+          <textarea data-hz-field="measure" data-hz-id="${hz.id}" rows="2" placeholder="위험성 감소대책" class="w-full text-xs border border-slate-300 rounded-lg p-2">${escapeHtml(hz.measure)}</textarea>
+          <div class="grid grid-cols-3 gap-2 items-center">
+            <input type="text" data-hz-field="owner" data-hz-id="${hz.id}" value="${escapeHtml(hz.owner)}" placeholder="담당자" class="text-xs border border-slate-200 rounded-lg p-2" />
+            <input type="text" data-hz-field="dueDate" data-hz-id="${hz.id}" value="${escapeHtml(hz.dueDate)}" placeholder="개선기한" class="text-xs border border-slate-200 rounded-lg p-2" />
+            <label class="flex items-center justify-center gap-1.5 text-xs font-semibold cursor-pointer">
+              <input type="checkbox" data-hz-done="${hz.id}" ${hz.done ? 'checked' : ''} class="w-4 h-4 accent-indigo-600" />
+              <span>이행완료</span>
+            </label>
+          </div>
+        `;
+        mobileWrap.appendChild(card);
+      });
+    }
+
+    function renderPhotos() {
+      const container = document.getElementById('photoGridContainer');
+      const section = document.getElementById('participationPhotoSection');
+      const photos = state.photos || [];
+      document.getElementById('photoCountBadge').textContent = `${photos.length}장`;
+
+      const shouldPrint = photos.length > 0 && state.printIncludePhotos !== false;
+      section.classList.toggle('print-hidden', !shouldPrint);
+
+      if (photos.length === 0) {
+        container.innerHTML = `<div class="no-print col-span-full py-7 px-4 text-center text-xs sm:text-sm text-slate-500 border border-dashed border-slate-300 rounded-xl bg-slate-50">첨부된 근로자 참여 증빙사진이 없습니다. <strong>참여 증빙사진 추가</strong> 버튼을 눌러 순회점검·회의·TBM 사진을 첨부하세요.</div>`;
+        return;
+      }
+
+      container.innerHTML = '';
+      photos.forEach((ph, idx) => {
+        const card = document.createElement('div');
+        card.className = 'print-break-inside-avoid border border-slate-300 rounded-xl overflow-hidden bg-white shadow-xs flex flex-col';
+        card.innerHTML = `
+          <div class="px-3 py-2 bg-slate-100 border-b border-slate-200 flex items-center justify-between gap-2">
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-bold text-slate-700">증빙 #${idx + 1}</span>
+              <select data-photo-cat="${ph.id}" class="no-print text-xs font-semibold border border-indigo-200 bg-indigo-50 text-indigo-800 rounded px-2 py-1">
+                <option value="근로자 순회점검" ${ph.category==='근로자 순회점검'?'selected':''}>근로자 순회점검</option>
+                <option value="위험성평가 회의" ${ph.category==='위험성평가 회의'?'selected':''}>위험성평가 회의</option>
+                <option value="TBM·결과공유" ${ph.category==='TBM·결과공유'?'selected':''}>TBM·결과공유</option>
+                <option value="개선 전·후" ${ph.category==='개선 전·후'?'selected':''}>개선 전·후</option>
+              </select>
+              <span class="hidden print:inline-block text-[10px] font-bold px-2 py-0.5 rounded bg-indigo-50 text-indigo-800 border border-indigo-200">${escapeHtml(ph.category || '근로자 순회점검')}</span>
+            </div>
+            <button type="button" data-photo-del="${ph.id}" class="no-print text-xs text-rose-600 hover:text-rose-800 font-semibold px-2 py-1 rounded hover:bg-rose-50">삭제</button>
+          </div>
+          <div class="bg-slate-50 p-2 flex items-center justify-center h-52 border-b border-slate-200">
+            <img src="${ph.dataUrl}" alt="참여 증빙사진 ${idx + 1}" class="max-h-full max-w-full object-contain rounded" />
+          </div>
+          <div class="p-3 space-y-2 text-xs">
+            <input type="text" data-photo-loc="${ph.id}" value="${escapeHtml(ph.location)}" placeholder="일시 / 장소 / 참여자 (예: 11/27 물류창고, 근로자 3명)" class="w-full border border-slate-200 rounded px-2.5 py-1.5 font-medium text-slate-800" />
+            <textarea data-photo-cap="${ph.id}" rows="2" placeholder="참여 활동 내용 설명 (예: 순회점검 중 유해·위험요인 합동 파악)" class="w-full border border-slate-200 rounded px-2.5 py-1.5 text-slate-700">${escapeHtml(ph.caption)}</textarea>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function renderAll() {
+      syncHeaderInputs();
+      renderCheckboxes();
+      renderKPIs();
+      renderHazards();
+      renderPhotos();
+      renderMultiWorkerSignatures();
+    }
+
+    // Import from Checklist Data (shared logic for localStorage & JSON upload)
+    function importFromChecklistObject(data) {
+      if (!data || !data.records) {
+        showToast('체크리스트 데이터를 찾을 수 없습니다.');
+        return;
+      }
+      if (data.meta) {
+        if (data.meta.companyName && !state.meta.companyName) state.meta.companyName = data.meta.companyName;
+        if (data.meta.industryWorkers && !state.meta.industryWorkers) state.meta.industryWorkers = data.meta.industryWorkers;
+      }
+
+      const targetYear = data.year || '2026';
+      const targetMonth = data.month || '11';
+      const monthRecs = (data.records[targetYear] && data.records[targetYear][targetMonth]) || {};
+      const customRecs = (data.customItems && data.customItems[targetYear] && data.customItems[targetYear][targetMonth]) || [];
+
+      let importedCount = 0;
+
+      Object.keys(monthRecs).forEach(idStr => {
+        const rec = monthRecs[idStr];
+        if (rec && (rec.status === '미실시' || rec.status === '미흡')) {
+          const itemId = Number(idStr);
+          const baseTitle = CHECKLIST_TITLE_MAP[itemId] || `안전보건규칙 점검항목 #${itemId}`;
+          const desc = rec.comment ? `${baseTitle} (${rec.comment})` : baseTitle;
+          const dup = state.hazards.some(h => h.checklistRef === `base_${targetYear}_${targetMonth}_${itemId}`);
+          if (!dup) {
+            state.hazards.push({
+              id: 'hz_chk_' + itemId + '_' + Date.now(),
+              checklistRef: `base_${targetYear}_${targetMonth}_${itemId}`,
+              source: `점검표(${targetMonth}월·${rec.status})`,
+              process: '사업장 공통/현장',
+              hazardDesc: desc,
+              currentMeasure: rec.status === '미실시' ? '조치 미실시 상태' : '일부 기준 미흡',
+              freq: rec.status === '미실시' ? 3 : 2,
+              sev: 3,
+              level3: rec.status === '미실시' ? '고' : '중',
+              opsKeyFactor: desc,
+              measure: rec.comment || '안전보건기준에 관한 규칙 적합 수준으로 개선 조치',
+              afterFreq: 1,
+              afterSev: 2,
+              afterLevel3: '저',
+              acceptableAfter: '개선 필요',
+              owner: '',
+              dueDate: rec.deadline || '',
+              done: false
+            });
+            importedCount++;
+          }
+        }
+      });
+
+      customRecs.forEach(ci => {
+        if (ci && (ci.status === '미실시' || ci.status === '미흡')) {
+          const dup = state.hazards.some(h => h.checklistRef === `custom_${ci.id}`);
+          if (!dup) {
+            state.hazards.push({
+              id: 'hz_cust_' + Date.now() + '_' + Math.random().toString(36).slice(2, 5),
+              checklistRef: `custom_${ci.id}`,
+              source: `기타점검(${ci.status})`,
+              process: ci.basis || '자체·법정',
+              hazardDesc: `${ci.title || '추가 점검항목'}${ci.comment ? ' (' + ci.comment + ')' : ''}`,
+              currentMeasure: ci.status,
+              freq: 3,
+              sev: 3,
+              level3: ci.status === '미실시' ? '고' : '중',
+              opsKeyFactor: ci.title || '',
+              measure: ci.comment || '',
+              afterFreq: 1,
+              afterSev: 2,
+              afterLevel3: '저',
+              acceptableAfter: '개선 필요',
+              owner: '',
+              dueDate: ci.deadline || '',
+              done: false
+            });
+            importedCount++;
+          }
+        }
+      });
+
+      saveState();
+      renderAll();
+      if (importedCount > 0) {
+        showToast(`체크리스트(${targetYear}년 ${targetMonth}월)에서 미실시·미흡 ${importedCount}건을 가져왔습니다.`);
+      } else {
+        showToast(`체크리스트(${targetYear}년 ${targetMonth}월)에 새로 가져올 미실시·미흡 항목이 없습니다.`);
+      }
+    }
+
+    document.getElementById('btnSyncLocalChecklist').addEventListener('click', () => {
+      try {
+        const raw = localStorage.getItem(CHECKLIST_STORAGE_KEY);
+        if (!raw) {
+          showToast('이 브라우저에 저장된 체크리스트가 없습니다. .json 파일을 불러와 주세요.');
+          return;
+        }
+        importFromChecklistObject(JSON.parse(raw));
+      } catch (e) {
+        showToast('체크리스트 데이터를 읽는 중 오류가 발생했습니다.');
+      }
+    });
+
+    document.getElementById('inputImportChecklistJson').addEventListener('change', e => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = ev => {
+        try {
+          importFromChecklistObject(JSON.parse(ev.target.result));
+        } catch (err) {
+          showToast('올바른 체크리스트 .json 파일이 아닙니다.');
+        }
+      };
+      reader.readAsText(file);
+      e.target.value = '';
+    });
+
+    // Eval Type Switcher
+    document.querySelectorAll('.eval-type-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        state.meta.evalType = btn.dataset.evalType;
+        saveState();
+        syncHeaderInputs();
+      });
+    });
+
+    // Method Switcher
+    document.querySelectorAll('.method-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        state.method = btn.dataset.method;
+        saveState();
+        renderAll();
+      });
+    });
+
+    // Add Hazard Row
+    document.getElementById('btnAddHazardRow').addEventListener('click', () => {
+      state.hazards.push({
+        id: 'hz_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6),
+        source: '직접입력',
+        process: '',
+        hazardDesc: '',
+        currentMeasure: '',
+        freq: 2,
+        sev: 2,
+        level3: '중',
+        opsKeyFactor: '',
+        measure: '',
+        afterFreq: 1,
+        afterSev: 2,
+        afterLevel3: '저',
+        acceptableAfter: '허용 가능',
+        owner: '',
+        dueDate: '',
+        done: false
+      });
+      saveState();
+      renderKPIs();
+      renderHazards();
+    });
+
+    // Hazard Table & Mobile Event Delegation
+    function handleHazardChange(e) {
+      const field = e.target.dataset.hzField;
+      const id = e.target.dataset.hzId;
+      if (field && id) {
+        const hz = state.hazards.find(x => x.id === id);
+        if (!hz) return;
+        hz[field] = e.target.value;
+        saveState();
+        renderKPIs();
+        if (['freq', 'sev', 'afterFreq', 'afterSev', 'level3', 'afterLevel3', 'acceptableAfter'].includes(field)) {
+          renderHazards();
+        }
+        return;
+      }
+      const doneId = e.target.dataset.hzDone;
+      if (doneId) {
+        const hz = state.hazards.find(x => x.id === doneId);
+        if (hz) {
+          hz.done = e.target.checked;
+          saveState();
+          renderKPIs();
+        }
+      }
+    }
+
+    function handleHazardClick(e) {
+      const delBtn = e.target.closest('button[data-hz-del]');
+      if (!delBtn) return;
+      const id = delBtn.dataset.hzDel;
+      const idx = state.hazards.findIndex(x => x.id === id);
+      if (idx !== -1) {
+        state.hazards.splice(idx, 1);
+        saveState();
+        renderKPIs();
+        renderHazards();
+      }
+    }
+
+    document.getElementById('hazardTableBody').addEventListener('input', handleHazardChange);
+    document.getElementById('hazardTableBody').addEventListener('change', handleHazardChange);
+    document.getElementById('hazardTableBody').addEventListener('click', handleHazardClick);
+    document.getElementById('mobileHazardCards').addEventListener('input', handleHazardChange);
+    document.getElementById('mobileHazardCards').addEventListener('change', handleHazardChange);
+    document.getElementById('mobileHazardCards').addEventListener('click', handleHazardClick);
+
+    // Checkboxes delegation
+    document.getElementById('priorInfoChecks').addEventListener('change', e => {
+      if (e.target.matches('.prior-chk')) {
+        state.priorInfo[e.target.dataset.prior] = e.target.checked;
+        saveState();
+      }
+    });
+    document.getElementById('participationStepChecks').addEventListener('change', e => {
+      if (e.target.matches('.part-step-chk')) {
+        state.participationSteps[e.target.dataset.partStep] = e.target.checked;
+        saveState();
+      }
+    });
+    document.getElementById('sharingMethodChecks').addEventListener('change', e => {
+      if (e.target.matches('.share-chk')) {
+        state.sharingMethods[e.target.dataset.share] = e.target.checked;
+        saveState();
+      }
+    });
+
+    // Meta inputs
+    const metaBindings = [
+      ['appDrafter', v => state.approval.drafter = v],
+      ['appReviewer', v => state.approval.reviewer = v],
+      ['appApprover', v => state.approval.approver = v],
+      ['metaCompany', v => state.meta.companyName = v],
+      ['metaIndustry', v => state.meta.industryWorkers = v],
+      ['metaEvalDate', v => state.meta.evalDate = v],
+      ['metaProcess', v => state.meta.processName = v],
+      ['metaOccasionalReason', v => state.meta.occasionalReason = v],
+      ['metaParticipants', v => state.meta.participants = v],
+      ['sigManagerTitleInput', v => state.meta.sigManagerTitle = v],
+      ['sigManagerNameInput', v => state.meta.sigManagerName = v],
+      ['sigWorkerTitleInput', v => state.meta.sigWorkerTitle = v],
+      ['sigWorkerNameInput', v => state.meta.sigWorkerName = v]
+    ];
+    metaBindings.forEach(([id, setter]) => {
+      document.getElementById(id).addEventListener('input', e => {
+        setter(e.target.value);
+        saveState();
+      });
+    });
+
+    document.getElementById('metaEvalType').addEventListener('change', e => {
+      state.meta.evalType = e.target.value;
+      saveState();
+      syncHeaderInputs();
+    });
+
+    document.getElementById('metaPlanCompleteDate').addEventListener('change', e => {
+      state.meta.planCompleteDate = e.target.value;
+      saveState();
+      updateRetentionText();
+    });
+
+    document.getElementById('chkNewWorkerShared').addEventListener('change', e => {
+      state.newWorkerShared = e.target.checked;
+      saveState();
+    });
+
+    // Photo Compression & Upload
+    function compressImageFile(file, maxWidth = 960, quality = 0.72) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = ev => {
+          const img = new Image();
+          img.onload = () => {
+            let w = img.width, h = img.height;
+            if (w > maxWidth) { h = Math.round((h * maxWidth) / w); w = maxWidth; }
+            const canvas = document.createElement('canvas');
+            canvas.width = w; canvas.height = h;
+            canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+            resolve(canvas.toDataURL('image/jpeg', quality));
+          };
+          img.onerror = reject;
+          img.src = ev.target.result;
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+
+    document.getElementById('photoUploadInput').addEventListener('change', async e => {
+      const files = Array.from(e.target.files || []);
+      if (!files.length) return;
+      let added = 0;
+      for (const file of files) {
+        try {
+          const dataUrl = await compressImageFile(file);
+          state.photos.push({
+            id: 'ph_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6),
+            category: '근로자 순회점검',
+            location: '',
+            caption: '',
+            dataUrl
+          });
+          added++;
+        } catch (err) {}
+      }
+      saveState();
+      renderPhotos();
+      showToast(`근로자 참여 증빙사진 ${added}장을 첨부했습니다.`);
+      e.target.value = '';
+    });
+
+    document.getElementById('photoGridContainer').addEventListener('change', e => {
+      if (e.target.matches('select[data-photo-cat]')) {
+        const ph = state.photos.find(x => x.id === e.target.dataset.photoCat);
+        if (ph) { ph.category = e.target.value; saveState(); renderPhotos(); }
+      }
+    });
+    document.getElementById('photoGridContainer').addEventListener('input', e => {
+      if (e.target.matches('input[data-photo-loc]')) {
+        const ph = state.photos.find(x => x.id === e.target.dataset.photoLoc);
+        if (ph) { ph.location = e.target.value; saveState(); }
+      } else if (e.target.matches('textarea[data-photo-cap]')) {
+        const ph = state.photos.find(x => x.id === e.target.dataset.photoCap);
+        if (ph) { ph.caption = e.target.value; saveState(); }
+      }
+    });
+    document.getElementById('photoGridContainer').addEventListener('click', e => {
+      const btn = e.target.closest('button[data-photo-del]');
+      if (!btn) return;
+      const idx = state.photos.findIndex(x => x.id === btn.dataset.photoDel);
+      if (idx !== -1) {
+        state.photos.splice(idx, 1);
+        saveState();
+        renderPhotos();
+      }
+    });
+
+    document.getElementById('printIncludePhotosCheckbox').addEventListener('change', e => {
+      state.printIncludePhotos = e.target.checked;
+      saveState();
+      renderPhotos();
+    });
+
+    // Export / Import JSON
+    document.getElementById('btnExportJson').addEventListener('click', () => {
+      const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      const company = state.meta.companyName ? `_${state.meta.companyName}` : '';
+      a.href = url;
+      a.download = `위험성평가_${state.meta.evalDate || '2026'}${company}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('위험성평가 데이터를 백업(.json)했습니다.');
+    });
+
+    document.getElementById('inputImportJson').addEventListener('change', e => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = ev => {
+        try {
+          const parsed = JSON.parse(ev.target.result);
+          if (parsed && Array.isArray(parsed.hazards)) {
+            state = { ...state, ...parsed };
+            saveState();
+            renderAll();
+            showToast('위험성평가 백업을 불러왔습니다.');
+          } else {
+            showToast('위험성평가 백업 파일 형식이 아닙니다.');
+          }
+        } catch (err) {
+          showToast('파일을 읽는 중 오류가 발생했습니다.');
+        }
+      };
+      reader.readAsText(file);
+      e.target.value = '';
+    });
+
+    // Print Placeholder Stripping
+    function beforePrintPrep() {
+      document.querySelectorAll('input[placeholder], textarea[placeholder]').forEach(el => {
+        if (!el.dataset.savedPlaceholder) el.dataset.savedPlaceholder = el.getAttribute('placeholder') || '';
+        el.setAttribute('placeholder', '');
+      });
+    }
+    function afterPrintRestore() {
+      document.querySelectorAll('input[data-saved-placeholder], textarea[data-saved-placeholder]').forEach(el => {
+        el.setAttribute('placeholder', el.dataset.savedPlaceholder);
+      });
+    }
+    window.addEventListener('beforeprint', beforePrintPrep);
+    window.addEventListener('afterprint', afterPrintRestore);
+    document.getElementById('btnPrint').addEventListener('click', () => {
+      beforePrintPrep();
+      window.print();
+      setTimeout(afterPrintRestore, 500);
+    });
+
+    // Signature Pad
+    let activeSigTarget = 'manager';
+    let isDrawing = false;
+    let hasDrawn = false;
+    const sigCanvas = document.getElementById('sigCanvas');
+    const sigCtx = sigCanvas.getContext('2d');
+    sigCtx.lineWidth = 2.5; sigCtx.lineCap = 'round'; sigCtx.strokeStyle = '#0f172a';
+
+    function getCanvasPos(e) {
+      const rect = sigCanvas.getBoundingClientRect();
+      const cx = e.touches ? e.touches[0].clientX : e.clientX;
+      const cy = e.touches ? e.touches[0].clientY : e.clientY;
+      return { x: (cx - rect.left) * (sigCanvas.width / rect.width), y: (cy - rect.top) * (sigCanvas.height / rect.height) };
+    }
+    function startDraw(e) { isDrawing = true; hasDrawn = true; const p = getCanvasPos(e); sigCtx.beginPath(); sigCtx.moveTo(p.x, p.y); }
+    function moveDraw(e) { if (!isDrawing) return; e.preventDefault(); const p = getCanvasPos(e); sigCtx.lineTo(p.x, p.y); sigCtx.stroke(); }
+    function endDraw() { isDrawing = false; }
+
+    sigCanvas.addEventListener('mousedown', startDraw);
+    sigCanvas.addEventListener('mousemove', moveDraw);
+    window.addEventListener('mouseup', endDraw);
+    sigCanvas.addEventListener('touchstart', startDraw, { passive: false });
+    sigCanvas.addEventListener('touchmove', moveDraw, { passive: false });
+    sigCanvas.addEventListener('touchend', endDraw);
+
+    function renderMultiWorkerSignatures() {
+      const grid = document.getElementById('multiWorkerSigGrid');
+      const section = document.getElementById('multiWorkerSigSection');
+      const list = state.participantSignatures || [];
+      document.getElementById('multiWorkerCountBadge').textContent = `${list.length}명`;
+      section.classList.toggle('print-hidden', list.length === 0);
+
+      if (list.length === 0) {
+        grid.innerHTML = `<div class="no-print col-span-full py-4 text-center text-xs text-slate-500 border border-dashed border-slate-300 rounded-lg bg-white">참여 근로자가 여러 명인 경우 우측 <strong>+ 참여 근로자 서명 추가</strong> 버튼을 눌러 부서·성명·개별 서명을 추가하세요.</div>`;
+        return;
+      }
+
+      grid.innerHTML = '';
+      list.forEach((ps, idx) => {
+        const card = document.createElement('div');
+        card.className = 'print-break-inside-avoid border border-slate-300 rounded-lg p-3 bg-white flex items-center justify-between gap-3';
+        card.innerHTML = `
+          <div class="flex-1 min-w-0 space-y-1.5 text-xs">
+            <div class="flex items-center justify-between gap-2">
+              <span class="font-bold text-indigo-700">참여자 #${idx + 1}</span>
+              <button type="button" data-wsig-del="${ps.id}" class="no-print text-[11px] text-rose-600 hover:text-rose-800 font-semibold">삭제</button>
+            </div>
+            <input type="text" data-wsig-dept="${ps.id}" value="${escapeHtml(ps.dept)}" placeholder="부서 / 공정 (예: 생산1팀)" class="w-full border border-slate-200 rounded px-2 py-1 text-slate-800" />
+            <input type="text" data-wsig-name="${ps.id}" value="${escapeHtml(ps.name)}" placeholder="성명 입력" class="w-full border border-slate-200 rounded px-2 py-1 font-semibold text-slate-900" />
+          </div>
+          <div class="shrink-0 flex flex-col items-center gap-1.5">
+            <div class="w-28 h-14 border border-dashed border-slate-300 rounded bg-slate-50 flex items-center justify-center overflow-hidden">
+              ${ps.dataUrl ? `<img src="${ps.dataUrl}" alt="참여자 서명" class="max-h-full max-w-full" />` : '<span class="text-[10px] text-slate-400">(서명)</span>'}
+            </div>
+            <button type="button" data-wsig-sign="${ps.id}" class="no-print px-2 py-1 rounded bg-slate-100 hover:bg-slate-200 border border-slate-300 text-[11px] font-semibold text-slate-700">전자서명</button>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    document.getElementById('btnAddWorkerSig').addEventListener('click', () => {
+      state.participantSignatures.push({
+        id: 'ws_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6),
+        dept: '',
+        name: '',
+        dataUrl: ''
+      });
+      saveState();
+      renderMultiWorkerSignatures();
+    });
+
+    document.getElementById('multiWorkerSigGrid').addEventListener('input', e => {
+      if (e.target.matches('input[data-wsig-dept]')) {
+        const ps = state.participantSignatures.find(x => x.id === e.target.dataset.wsigDept);
+        if (ps) { ps.dept = e.target.value; saveState(); }
+      } else if (e.target.matches('input[data-wsig-name]')) {
+        const ps = state.participantSignatures.find(x => x.id === e.target.dataset.wsigName);
+        if (ps) { ps.name = e.target.value; saveState(); }
+      }
+    });
+
+    document.getElementById('multiWorkerSigGrid').addEventListener('click', e => {
+      const signBtn = e.target.closest('button[data-wsig-sign]');
+      if (signBtn) {
+        activeSigTarget = 'participant::' + signBtn.dataset.wsigSign;
+        const ps = state.participantSignatures.find(x => x.id === signBtn.dataset.wsigSign);
+        document.getElementById('sigModalTitle').textContent = `참여 근로자 전자서명${ps && ps.name ? ' (' + ps.name + ')' : ''}`;
+        sigCtx.clearRect(0, 0, sigCanvas.width, sigCanvas.height);
+        hasDrawn = false;
+        document.getElementById('sigModal').classList.remove('hidden');
+        return;
+      }
+      const delBtn = e.target.closest('button[data-wsig-del]');
+      if (delBtn) {
+        const idx = state.participantSignatures.findIndex(x => x.id === delBtn.dataset.wsigDel);
+        if (idx !== -1) {
+          state.participantSignatures.splice(idx, 1);
+          saveState();
+          renderMultiWorkerSignatures();
+        }
+      }
+    });
+
+    document.querySelectorAll('.open-sig-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        activeSigTarget = btn.dataset.sigTarget;
+        document.getElementById('sigModalTitle').textContent = activeSigTarget === 'manager' ? '평가책임자 전자서명' : '근로자 대표 전자서명';
+        sigCtx.clearRect(0, 0, sigCanvas.width, sigCanvas.height);
+        hasDrawn = false;
+        document.getElementById('sigModal').classList.remove('hidden');
+      });
+    });
+    document.getElementById('btnClearSig').addEventListener('click', () => { sigCtx.clearRect(0, 0, sigCanvas.width, sigCanvas.height); hasDrawn = false; });
+    document.getElementById('btnSaveSig').addEventListener('click', () => {
+      if (!hasDrawn) { showToast('서명을 먼저 그려주세요.'); return; }
+      const url = sigCanvas.toDataURL('image/png');
+      if (activeSigTarget.startsWith('participant::')) {
+        const id = activeSigTarget.replace('participant::', '');
+        const ps = state.participantSignatures.find(x => x.id === id);
+        if (ps) { ps.dataUrl = url; renderMultiWorkerSignatures(); }
+      } else {
+        state.signatures[activeSigTarget] = url;
+        updateSignaturePreview(activeSigTarget);
+      }
+      saveState();
+      document.getElementById('sigModal').classList.add('hidden');
+    });
+    document.getElementById('btnRemoveSavedSig').addEventListener('click', () => {
+      if (activeSigTarget.startsWith('participant::')) {
+        const id = activeSigTarget.replace('participant::', '');
+        const ps = state.participantSignatures.find(x => x.id === id);
+        if (ps) { ps.dataUrl = ''; renderMultiWorkerSignatures(); }
+      } else {
+        state.signatures[activeSigTarget] = '';
+        updateSignaturePreview(activeSigTarget);
+      }
+      saveState();
+      document.getElementById('sigModal').classList.add('hidden');
+    });
+    document.getElementById('btnCloseSigModal').addEventListener('click', () => document.getElementById('sigModal').classList.add('hidden'));
+
+    // In-App Browser Detector
+    (function initInAppDetector() {
+      const ua = navigator.userAgent || '';
+      if (!/NAVER|KAKAOTALK|Instagram|FBAN|FBAV|Line/i.test(ua)) return;
+      const banner = document.getElementById('inAppBanner');
+      const btnChrome = document.getElementById('btnOpenExternalChrome');
+      const btnCopy = document.getElementById('btnCopyPageUrl');
+      banner.classList.remove('hidden');
+      if (/Android/i.test(ua)) {
+        btnChrome.classList.remove('hidden');
+        btnChrome.addEventListener('click', () => {
+          const base = window.location.href.split('#')[0];
+          const sep = base.includes('?') ? '&' : '?';
+          const url = window.__isRiskAppUnlocked && !base.includes('from=blog_app') ? `${base}${sep}from=blog_app` : base;
+          window.location.href = `intent://${url.replace(/^https?:\/\//i, '')}#Intent;scheme=https;package=com.android.chrome;end`;
+        });
+      } else if (/iPhone|iPad|iPod/i.test(ua)) {
+        btnCopy.classList.remove('hidden');
+        btnCopy.addEventListener('click', () => {
+          const url = window.location.href;
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(url).then(() => showToast('주소를 복사했습니다. Safari에 붙여넣어 열어주세요.'));
+          }
+        });
+      }
+      document.getElementById('btnDismissInApp').addEventListener('click', () => banner.classList.add('hidden'));
+    })();
+
+    // Init
+    loadState();
+    renderAll();
+    if (window.lucide) window.lucide.createIcons();
+  </script>
+</body>
+</html>
