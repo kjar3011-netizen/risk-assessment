@@ -1466,8 +1466,10 @@
             saveState();
             renderAll();
             showToast('위험성평가 백업을 불러왔습니다.');
+          } else if (parsed && parsed.records) {
+            importFromChecklistObject(parsed);
           } else {
-            showToast('위험성평가 백업 파일 형식이 아닙니다.');
+            showToast('위험성평가 또는 체크리스트 백업 파일 형식이 아닙니다.');
           }
         } catch (err) {
           showToast('파일을 읽는 중 오류가 발생했습니다.');
