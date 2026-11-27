@@ -640,13 +640,14 @@
     };
 
     function encodeSyncPayload(st) {
+      const pickTrue = obj => Object.keys(obj || {}).filter(k => obj[k]);
       const compact = {
         method: st.method,
         approval: st.approval,
         meta: st.meta,
-        priorInfo: st.priorInfo,
-        participationSteps: st.participationSteps,
-        sharingMethods: st.sharingMethods,
+        priorTrue: pickTrue(st.priorInfo),
+        partTrue: pickTrue(st.participationSteps),
+        shareTrue: pickTrue(st.sharingMethods),
         newWorkerShared: st.newWorkerShared,
         hazards: st.hazards
       };
@@ -673,9 +674,13 @@
         if (syncParam) {
           const imported = decodeSyncPayload(syncParam);
           if (imported) {
+            const toMap = arr => { const m = {}; (arr || []).forEach(k => { m[k] = true; }); return m; };
             state = {
               ...state,
               ...imported,
+              priorInfo: imported.priorTrue ? toMap(imported.priorTrue) : (imported.priorInfo || state.priorInfo),
+              participationSteps: imported.partTrue ? toMap(imported.partTrue) : (imported.participationSteps || state.participationSteps),
+              sharingMethods: imported.shareTrue ? toMap(imported.shareTrue) : (imported.sharingMethods || state.sharingMethods),
               approval: { ...state.approval, ...(imported.approval || {}) },
               meta: { ...state.meta, ...(imported.meta || {}) },
               hazards: Array.isArray(imported.hazards) ? imported.hazards : state.hazards
@@ -1650,7 +1655,7 @@
           if (window.__isRiskAppUnlocked) qs.set('from', 'blog_app');
           try {
             const encoded = encodeSyncPayload(state);
-            if (encoded.length < 5500) {
+            if (encoded.length < 7500) {
               qs.set('sync', encoded);
             }
           } catch (e) {}
