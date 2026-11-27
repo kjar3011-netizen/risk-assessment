@@ -639,7 +639,56 @@
       photos: []
     };
 
+    function encodeSyncPayload(st) {
+      const compact = {
+        method: st.method,
+        approval: st.approval,
+        meta: st.meta,
+        priorInfo: st.priorInfo,
+        participationSteps: st.participationSteps,
+        sharingMethods: st.sharingMethods,
+        newWorkerShared: st.newWorkerShared,
+        hazards: st.hazards
+      };
+      const json = JSON.stringify(compact);
+      const bytes = new TextEncoder().encode(json);
+      let bin = '';
+      bytes.forEach(b => { bin += String.fromCharCode(b); });
+      return btoa(bin).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+    }
+
+    function decodeSyncPayload(str) {
+      let b64 = str.replace(/-/g, '+').replace(/_/g, '/');
+      while (b64.length % 4) b64 += '=';
+      const bin = atob(b64);
+      const bytes = new Uint8Array(bin.length);
+      for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+      return JSON.parse(new TextDecoder().decode(bytes));
+    }
+
     function loadState() {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const syncParam = params.get('sync');
+        if (syncParam) {
+          const imported = decodeSyncPayload(syncParam);
+          if (imported) {
+            state = {
+              ...state,
+              ...imported,
+              approval: { ...state.approval, ...(imported.approval || {}) },
+              meta: { ...state.meta, ...(imported.meta || {}) },
+              hazards: Array.isArray(imported.hazards) ? imported.hazards : state.hazards
+            };
+            saveState();
+            if (window.history && window.history.replaceState) {
+              window.history.replaceState({}, '', window.location.pathname + '?from=blog_app');
+            }
+            setTimeout(() => showToast('인앱 브라우저에서 입력한 위험성평가 내용을 그대로 불러왔습니다.'), 400);
+            return;
+          }
+        }
+      } catch (e) {}
       try {
         const raw = localStorage.getItem(STORAGE_KEY);
         if (raw) {
@@ -1596,9 +1645,16 @@
       if (/Android/i.test(ua)) {
         btnChrome.classList.remove('hidden');
         btnChrome.addEventListener('click', () => {
-          const base = window.location.href.split('#')[0];
-          const sep = base.includes('?') ? '&' : '?';
-          const url = window.__isRiskAppUnlocked && !base.includes('from=blog_app') ? `${base}${sep}from=blog_app` : base;
+          const baseClean = window.location.origin + window.location.pathname;
+          const qs = new URLSearchParams(window.location.search);
+          if (window.__isRiskAppUnlocked) qs.set('from', 'blog_app');
+          try {
+            const encoded = encodeSyncPayload(state);
+            if (encoded.length < 5500) {
+              qs.set('sync', encoded);
+            }
+          } catch (e) {}
+          const url = `${baseClean}?${qs.toString()}`;
           window.location.href = `intent://${url.replace(/^https?:\/\//i, '')}#Intent;scheme=https;package=com.android.chrome;end`;
         });
       } else if (/iPhone|iPad|iPod/i.test(ua)) {
