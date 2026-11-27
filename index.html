@@ -189,6 +189,9 @@
           <i data-lucide="upload" class="w-3.5 h-3.5"></i> 불러오기
           <input id="inputImportJson" type="file" accept=".json" class="hidden" />
         </label>
+        <button id="btnResetAll" type="button" class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-rose-700 hover:bg-rose-600 text-white text-xs font-medium transition">
+          <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i> 초기화
+        </button>
         <button id="btnPrint" type="button" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-500 hover:bg-indigo-400 text-white text-xs sm:text-sm font-bold shadow transition">
           <i data-lucide="printer" class="w-4 h-4"></i> 인쇄 / PDF
         </button>
@@ -532,6 +535,21 @@
           <button id="btnRemoveSavedSig" type="button" class="px-3 py-1.5 rounded-lg border border-rose-200 text-xs font-medium text-rose-700 hover:bg-rose-50">서명 삭제</button>
           <button id="btnSaveSig" type="button" class="px-4 py-1.5 rounded-lg bg-indigo-600 text-white text-xs font-bold hover:bg-indigo-500">서명 적용</button>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Full Reset Confirmation Modal -->
+  <div id="resetConfirmModal" class="no-print fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-xl shadow-xl max-w-sm w-full p-5">
+      <h4 class="text-base font-bold text-slate-900">새 사업장(전체 초기화)</h4>
+      <p class="text-xs text-slate-600 mt-2 leading-relaxed">
+        현재 입력된 사업장 정보, 결재·서명, 유해·위험 요인 목록, 참여 증빙사진이 모두 삭제됩니다.<br/>
+        기록을 남기려면 먼저 <strong>백업</strong> 또는 <strong>인쇄 / PDF</strong>를 진행하세요.
+      </p>
+      <div class="mt-4 flex items-center justify-end gap-2">
+        <button id="btnCancelReset" type="button" class="px-3 py-1.5 rounded-lg border border-slate-300 text-xs font-medium text-slate-700 hover:bg-slate-100">취소</button>
+        <button id="btnConfirmReset" type="button" class="px-4 py-1.5 rounded-lg bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold">전체 초기화</button>
       </div>
     </div>
   </div>
@@ -1675,6 +1693,39 @@
       }
       document.getElementById('btnDismissInApp').addEventListener('click', () => banner.classList.add('hidden'));
     })();
+
+    // Full Reset Handlers
+    document.getElementById('btnResetAll').addEventListener('click', () => {
+      document.getElementById('resetConfirmModal').classList.remove('hidden');
+    });
+    document.getElementById('btnCancelReset').addEventListener('click', () => {
+      document.getElementById('resetConfirmModal').classList.add('hidden');
+    });
+    document.getElementById('btnConfirmReset').addEventListener('click', () => {
+      try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+      state = {
+        method: 'matrix',
+        approval: { drafter: '', reviewer: '', approver: '' },
+        meta: {
+          companyName: '', industryWorkers: '', evalDate: '', evalType: '정기평가',
+          processName: '', occasionalReason: '', participants: '', planCompleteDate: '',
+          sigManagerTitle: '', sigManagerName: '', sigWorkerTitle: '', sigWorkerName: ''
+        },
+        priorInfo: {},
+        participationSteps: {},
+        sharingMethods: {},
+        newWorkerShared: false,
+        printIncludePhotos: true,
+        signatures: { manager: '', worker: '' },
+        participantSignatures: [],
+        hazards: [],
+        photos: []
+      };
+      saveState();
+      renderAll();
+      document.getElementById('resetConfirmModal').classList.add('hidden');
+      showToast('새 사업장 평가를 위해 전체 내용을 초기화했습니다.');
+    });
 
     // Init
     loadState();
